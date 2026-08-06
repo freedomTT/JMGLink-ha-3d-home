@@ -1,61 +1,145 @@
-# HA 3D Home 加载项
+# JMGLink HA 3D Home 使用教程
 
-此加载项运行与独立部署相同的 HA 3D Home 服务端和 React 构建产物。
+`JMGLink HA 3D Home` 是一个面向 Home Assistant 的 3D 户型图可视化与控制中心。安装后可在 Home Assistant 侧边栏通过 `3D Home` 面板打开，用 3D 空间查看房间、设备状态并进行控制。
 
-## 发布
+## 适用场景
 
-此加载项配置为使用预构建镜像：
+- 想用 3D 户型图替代传统设备列表。
+- 想把 Home Assistant 实体绑定到真实房间位置。
+- 想在一个可视化界面里查看灯光、遮阳、环境、安防等状态。
+- 想通过 Home Assistant Ingress 直接使用，无需单独配置反向代理。
 
-```yaml
-image: docker.ysf.cn/jmglink-ha-3d
-```
+## 安装加载项
 
-安装加载项前，请先发布匹配版本的镜像标签。对于 `version: 0.1.0`，请发布：
+1. 打开 Home Assistant。
+2. 进入 **设置 → 加载项 → 加载项商店**。
+3. 点击右上角菜单，选择 **仓库**。
+4. 添加加载项仓库地址。
+5. 刷新加载项商店。
+6. 找到 **JMGLink HA 3D Home** 并点击安装。
+7. 安装完成后点击 **启动**。
+8. 建议开启 **在侧边栏显示**，方便从左侧菜单进入。
+
+## 打开 3D Home
+
+启动加载项后，在 Home Assistant 左侧侧边栏点击 **3D Home**。
+
+如果侧边栏没有显示：
+
+1. 确认加载项已经启动。
+2. 进入加载项详情页，确认 Ingress 页面可以打开。
+3. 刷新浏览器或重新登录 Home Assistant。
+4. 如仍未显示，可重启 Home Assistant 前端或重新安装加载项。
+
+## 初次使用流程
+
+建议按以下顺序配置：
+
+1. 打开 **3D Home** 面板。
+2. 进入户型编辑器。
+3. 创建或导入户型。
+4. 设置楼层、房间和墙体结构。
+5. 添加家具、门窗和设备点位。
+6. 将设备点位绑定到 Home Assistant 实体。
+7. 保存项目。
+8. 返回 3D Home 视图查看效果。
+
+## 户型编辑
+
+在户型编辑器中可以完成以下操作：
+
+- 绘制墙体、门窗和房间结构。
+- 添加家具、设备点位和灯带线条。
+- 设置楼层信息。
+- 使用参考底图辅助描绘户型。
+- 通过比例尺标定让户型尺寸更接近真实房间。
+- 保存、导入或导出项目数据。
+
+建议先完成主要墙体和房间，再逐步添加设备点位，避免后期频繁调整布局。
+
+## 绑定 Home Assistant 实体
+
+绑定设备前，请确保 Home Assistant 中已有对应实体。
+
+常见绑定流程：
+
+1. 在编辑器中选择一个设备点位。
+2. 在设备属性或绑定面板中选择 Home Assistant 实体。
+3. 保存绑定关系。
+4. 回到 3D Home 视图。
+5. 点击 3D 空间中的设备，查看状态或执行控制动作。
+
+如果实体列表为空，请确认加载项已启用 Home Assistant API 权限，并检查加载项日志是否有连接错误。
+
+## 视图模式
+
+3D Home 支持按不同场景查看家中状态，例如：
+
+- 全屋概览：查看整体户型与设备分布。
+- 照明：重点查看灯光设备状态。
+- 遮阳：查看窗帘、百叶等遮阳设备。
+- 环境：查看空调、温湿度、空气质量等环境设备。
+- 安防：查看门锁、传感器、摄像头等安防设备。
+
+具体可用效果取决于已绑定的 Home Assistant 实体类型和当前项目配置。
+
+## 配置项说明
+
+| 配置项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `log_level` | `info` | 控制加载项日志级别。排查问题时可临时改为 `debug`。 |
+| `external_access` | `false` | 是否启用外部访问相关能力。普通 Ingress 使用场景保持默认即可。 |
+
+修改配置后，请保存并重启加载项。
+
+## 数据存储
+
+加载项会使用 Home Assistant Add-on 可写目录保存项目数据、素材和配置。建议在大幅修改户型前，先导出或备份项目数据。
+
+## 常见问题
+
+### 页面显示 local development
+
+这通常说明 Home Assistant 正在运行旧镜像或旧的加载项元数据。请按顺序尝试：
+
+1. 刷新加载项仓库。
+2. 升级或重新安装加载项。
+3. 重启加载项。
+4. 查看加载项日志，确认包含 `Runtime configuration loaded`，并且 `mode: "addon"`、`hasSupervisorToken: true`。
+
+### 打不开 3D Home 页面
+
+请检查：
+
+1. 加载项是否正在运行。
+2. 日志中是否有启动失败或端口占用错误。
+3. Home Assistant 是否能正常打开 Ingress 页面。
+4. 浏览器缓存是否仍保留旧前端资源。
+
+### 看不到 Home Assistant 实体
+
+请检查：
+
+1. 加载项是否启动成功。
+2. `homeassistant_api` 权限是否生效。
+3. Home Assistant Core 是否正常运行。
+4. 加载项日志中是否存在 Supervisor API 调用失败信息。
+
+### 控制设备没有反应
+
+请检查：
+
+1. 设备点位是否绑定了正确实体。
+2. 实体在 Home Assistant 中是否可用。
+3. 当前实体类型是否支持对应控制动作。
+4. 加载项日志中是否有动作调用失败信息。
+
+## JMGLink 官网
+
+JMGLink 可用于远程访问 Home Assistant APP 以及其他内网应用。
+
+官网：
 
 ```text
-docker.ysf.cn/jmglink-ha-3d:0.1.0
+https://www.jmglink.cn/
 ```
-
-这样可以避免在用户的 HAOS 主机上构建镜像，并防止因本地 Docker Hub 或 npm registry 超时导致安装失败。
-
-## 仓库包
-
-在源码仓库根目录运行以下命令，生成仅包含镜像加载项元数据的仓库包：
-
-```bash
-npm run package:addon
-```
-
-该命令只会将 Home Assistant 加载项元数据复制到 `dist-addon-release/`。运行时代码不会存放在加载项仓库中，而是只存在于预构建 Docker 镜像内。
-
-预期打包结构如下：
-
-```text
-dist-addon-release/
-  repository.yaml
-  jmglink-ha-3d-home/
-    config.yaml
-    DOCS.md
-    CHANGELOG.md
-    translations/
-```
-
-发布此加载项仓库前，请先在源码仓库根目录使用 `Dockerfile.addon` 构建并推送预构建镜像。
-
-推荐构建命令：
-
-```bash
-docker buildx build \
-  --platform linux/amd64,linux/arm64 \
-  -f Dockerfile.addon \
-  --build-arg BUILD_VERSION=0.1.1 \
-  -t docker.ysf.cn/jmglink-ha-3d:0.1.1 \
-  -t docker.ysf.cn/jmglink-ha-3d:latest \
-  --push .
-```
-
-## 运行时
-
-加载项通过 `SUPERVISOR_TOKEN` 和 `homeassistant_api: true` 经由 Supervisor 调用 Home Assistant Core。前端仍只通过相对路径 `/api/*` 和 `/ws` 调用此服务，因此可以在 Ingress 后正常工作。
-
-如果连接面板仍显示 “local development”，说明 Home Assistant 正在运行旧镜像或旧的加载项元数据。请刷新加载项仓库、升级或重新安装加载项，并确认加载项日志中包含 `Runtime configuration loaded`，且其中 `mode: "addon"` 与 `hasSupervisorToken: true`。
