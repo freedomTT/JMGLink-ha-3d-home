@@ -1,0 +1,4 @@
+configuration:
+  log_level:
+    name: 日志级别
+    description: 控制服务日志输出详细程度。

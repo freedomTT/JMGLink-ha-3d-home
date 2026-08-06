@@ -1,0 +1,4 @@
+configuration:
+  log_level:
+    name: Log level
+    description: Controls server log verbosity.

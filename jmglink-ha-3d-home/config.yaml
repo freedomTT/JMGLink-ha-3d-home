@@ -1,0 +1,34 @@
+name: JMGLink HA 3D Home
+version: 0.1.0
+slug: jmglink_ha_3d_home
+description: Home Assistant的3D户型图可视化与控制中心
+url: https://gitee.com/tuotuo4ever/jmglink-ha-3d.git
+image: docker.ysf.cn/jmglink-ha-3d
+arch:
+  - aarch64
+  - amd64
+startup: application
+boot: auto
+init: false
+ingress: true
+ingress_port: 8099
+ingress_stream: true
+panel_icon: mdi:floor-plan
+panel_title: 3D Home
+panel_admin: false
+homeassistant_api: true
+ports:
+  8099/tcp: null
+map:
+  - type: addon_config
+    read_only: false
+  - type: media
+    read_only: false
+  - type: share
+    read_only: false
+options:
+  log_level: info
+  external_access: false
+schema:
+  log_level: list(trace|debug|info|warning|error)
+  external_access: bool
