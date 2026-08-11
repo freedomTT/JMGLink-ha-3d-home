@@ -1,7 +1,15 @@
-# Changelog
+# 更新日志
+
+## 0.1.1
+
+- 为独立Docker部署场景新增了首次启动时的Home Assistant连接配置流程。
+- 将Home Assistant的URL和API密钥持久化存储在后端数据目录中。
+- 优化了连接面板的用户界面，新增模态弹窗布局、支持者头像展示和编辑视图控件。
+- 完善了首页视觉样式的文档，包含玻璃拟态、卡通风格和奶油模式三种展示效果。
+- 更新了独立Docker部署的文档，现在发布的镜像仅需在首次启动时通过前端完成配置即可使用。
 
 ## 0.1.0
 
-- Initial add-on scaffold for HA 3D Home.
-- Ingress-enabled React UI served by the Fastify backend.
-- Supervisor API mode through `SUPERVISOR_TOKEN`.
+- 完成HA 3D Home的初始插件脚手架搭建。
+- 实现由Fastify后端提供服务、支持Ingress的React用户界面。
+- 支持通过`SUPERVISOR_TOKEN`调用Supervisor API。
