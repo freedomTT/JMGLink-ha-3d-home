@@ -1,145 +1,203 @@
-# JMGLink HA 3D Home 使用教程
+# JMGLink HA 3D Home 安装使用教程
 
-`JMGLink HA 3D Home` 是一个面向 Home Assistant 的 3D 户型图可视化与控制中心。安装后可在 Home Assistant 侧边栏通过 `3D Home` 面板打开，用 3D 空间查看房间、设备状态并进行控制。
+JMGLink HA 3D Home 是 Home Assistant 的 3D 户型图可视化控制中心，安装后可通过侧边栏「3D Home」面板查看房间布局、设备状态并直接控制。
 
-## 适用场景
+***
 
-- 想用 3D 户型图替代传统设备列表。
-- 想把 Home Assistant 实体绑定到真实房间位置。
-- 想在一个可视化界面里查看灯光、遮阳、环境、安防等状态。
-- 想通过 Home Assistant Ingress 直接使用，无需单独配置反向代理。
+## 一、安装加载项
 
-## 安装加载项
+1. 打开 Home Assistant，进入 **设置 → 加载项 → 加载项商店**
+2. 点击右上角菜单，选择「仓库」，添加 JMGLink 加载项仓库地址
+3. 刷新加载项商店，找到「JMGLink HA 3D Home」并点击安装
+4. 安装完成后启动加载项，建议开启「在侧边栏显示」方便快速访问
 
-1. 打开 Home Assistant。
-2. 进入 **设置 → 加载项 → 加载项商店**。
-3. 点击右上角菜单，选择 **仓库**。
-4. 添加加载项仓库地址。
-5. 刷新加载项商店。
-6. 找到 **JMGLink HA 3D Home** 并点击安装。
-7. 安装完成后点击 **启动**。
-8. 建议开启 **在侧边栏显示**，方便从左侧菜单进入。
+***
 
-## 打开 3D Home
+## 二、启动与访问
 
-启动加载项后，在 Home Assistant 左侧侧边栏点击 **3D Home**。
+启动加载项后，直接点击左侧侧边栏的「3D Home」即可进入。
 
-如果侧边栏没有显示：
+如果侧边栏未显示面板：
 
-1. 确认加载项已经启动。
-2. 进入加载项详情页，确认 Ingress 页面可以打开。
-3. 刷新浏览器或重新登录 Home Assistant。
-4. 如仍未显示，可重启 Home Assistant 前端或重新安装加载项。
+1. 确认加载项正常运行
+2. 在加载项详情页验证 Ingress 页面可正常打开
+3. 刷新浏览器/重新登录 HA，仍无法显示则重启 HA 前端或重装加载项
 
-## 初次使用流程
+***
 
-建议按以下顺序配置：
+## 三、快速配置流程
 
-1. 打开 **3D Home** 面板。
-2. 进入户型编辑器。
-3. 创建或导入户型。
-4. 设置楼层、房间和墙体结构。
-5. 添加家具、门窗和设备点位。
-6. 将设备点位绑定到 Home Assistant 实体。
-7. 保存项目。
-8. 返回 3D Home 视图查看效果。
+1. 打开 3D Home 面板，进入户型编辑器
+2. 创建/导入户型，设置楼层、墙体、房间结构
+3. 添加家具、门窗和设备点位，将点位绑定 HA 实体
+4. 保存项目后返回 3D 视图即可查看和控制设备
 
-## 户型编辑
+***
 
-在户型编辑器中可以完成以下操作：
+## 四、常用配置说明
 
-- 绘制墙体、门窗和房间结构。
-- 添加家具、设备点位和灯带线条。
-- 设置楼层信息。
-- 使用参考底图辅助描绘户型。
-- 通过比例尺标定让户型尺寸更接近真实房间。
-- 保存、导入或导出项目数据。
+### 核心配置项
 
-建议先完成主要墙体和房间，再逐步添加设备点位，避免后期频繁调整布局。
+| 配置项               | 默认值     | 说明                         |
+| ----------------- | ------- | -------------------------- |
+| `log_level`       | `info`  | 排查问题时可临时改为 `debug` 输出详细日志  |
+| `external_access` | `false` | 普通Ingress场景保持默认即可，需外部访问时开启 |
 
-## 绑定 Home Assistant 实体
+修改配置后需保存并重启加载项生效。
 
-绑定设备前，请确保 Home Assistant 中已有对应实体。
+### 数据备份
 
-常见绑定流程：
+加载项自动保存项目数据到 HA 可写目录，大幅修改户型前建议手动导出备份项目文件。
 
-1. 在编辑器中选择一个设备点位。
-2. 在设备属性或绑定面板中选择 Home Assistant 实体。
-3. 保存绑定关系。
-4. 回到 3D Home 视图。
-5. 点击 3D 空间中的设备，查看状态或执行控制动作。
+***
 
-如果实体列表为空，请确认加载项已启用 Home Assistant API 权限，并检查加载项日志是否有连接错误。
+## 五、Docker 独立版本部署
 
-## 视图模式
+Docker 独立版本适用于 NAS、Linux 小主机、Windows Docker Desktop 等非 HAOS Add-on 环境。该模式不会自动出现在 Home Assistant 侧边栏，需要通过浏览器访问独立服务地址。
 
-3D Home 支持按不同场景查看家中状态，例如：
+### 适用场景
 
-- 全屋概览：查看整体户型与设备分布。
-- 照明：重点查看灯光设备状态。
-- 遮阳：查看窗帘、百叶等遮阳设备。
-- 环境：查看空调、温湿度、空气质量等环境设备。
-- 安防：查看门锁、传感器、摄像头等安防设备。
+- 不使用 Home Assistant OS / Supervisor Add-on
+- 希望在独立 Docker 主机上运行 3D Home
+- Home Assistant 与 3D Home 分别部署，但网络可互相访问
 
-具体可用效果取决于已绑定的 Home Assistant 实体类型和当前项目配置。
+### 准备工作
 
-## 配置项说明
+1. 安装 Docker 或 Docker Compose
+2. 确认 Docker 主机可以访问 Home Assistant 地址，例如 `http://homeassistant.local:8123` 或 `http://HA主机IP:8123`
+3. 在 Home Assistant 中进入 **用户头像 → 安全 → 长期访问令牌**，创建一个长期访问令牌备用
 
-| 配置项 | 默认值 | 说明 |
-| --- | --- | --- |
-| `log_level` | `info` | 控制加载项日志级别。排查问题时可临时改为 `debug`。 |
-| `external_access` | `false` | 是否启用外部访问相关能力。普通 Ingress 使用场景保持默认即可。 |
+### 使用 Docker Compose 启动（推荐）
 
-修改配置后，请保存并重启加载项。
+创建 `docker-compose.yml`：
 
-## 数据存储
+```yaml
+services:
+  jmglink-ha-3d-home:
+    image: docker.jmglink.cn/jmglink-ha-3d:latest
+    container_name: jmglink-ha-3d-home
+    restart: unless-stopped
+    ports:
+      - "8099:8099"
+    volumes:
+      - ./data:/data
+      - ./assets:/assets
+    environment:
+      HA3D_MODE: standalone
+      PORT: 8099
+      HA3D_DATA_DIR: /data
+      HA3D_ASSET_DIR: /assets
+```
 
-加载项会使用 Home Assistant Add-on 可写目录保存项目数据、素材和配置。建议在大幅修改户型前，先导出或备份项目数据。
+然后执行：
 
-## 常见问题
+```bash
+docker compose up -d
+```
 
-### 页面显示 local development
+### 使用 docker run 启动
 
-这通常说明 Home Assistant 正在运行旧镜像或旧的加载项元数据。请按顺序尝试：
+Linux / macOS 示例：
 
-1. 刷新加载项仓库。
-2. 升级或重新安装加载项。
-3. 重启加载项。
-4. 查看加载项日志，确认包含 `Runtime configuration loaded`，并且 `mode: "addon"`、`hasSupervisorToken: true`。
+```bash
+mkdir -p data assets
 
-### 打不开 3D Home 页面
+docker run -d \
+  --name jmglink-ha-3d-home \
+  --restart unless-stopped \
+  -p 8099:8099 \
+  -e HA3D_MODE=standalone \
+  -e PORT=8099 \
+  -e HA3D_DATA_DIR=/data \
+  -e HA3D_ASSET_DIR=/assets \
+  -v "$PWD/data:/data" \
+  -v "$PWD/assets:/assets" \
+  docker.jmglink.cn/jmglink-ha-3d:latest
+```
 
-请检查：
+Windows PowerShell 示例：
 
-1. 加载项是否正在运行。
-2. 日志中是否有启动失败或端口占用错误。
-3. Home Assistant 是否能正常打开 Ingress 页面。
-4. 浏览器缓存是否仍保留旧前端资源。
+```powershell
+mkdir data, assets -Force
 
-### 看不到 Home Assistant 实体
+docker run -d `
+  --name jmglink-ha-3d-home `
+  --restart unless-stopped `
+  -p 8099:8099 `
+  -e HA3D_MODE=standalone `
+  -e PORT=8099 `
+  -e HA3D_DATA_DIR=/data `
+  -e HA3D_ASSET_DIR=/assets `
+  -v ${PWD}/data:/data `
+  -v ${PWD}/assets:/assets `
+  docker.jmglink.cn/jmglink-ha-3d:latest
+```
 
-请检查：
+启动后访问：
 
-1. 加载项是否启动成功。
-2. `homeassistant_api` 权限是否生效。
-3. Home Assistant Core 是否正常运行。
-4. 加载项日志中是否存在 Supervisor API 调用失败信息。
+```text
+http://Docker主机IP:8099
+```
 
-### 控制设备没有反应
+首次打开后，在页面的「连接与服务」面板填写 Home Assistant 地址和 API Key。配置会保存到挂载的 `data` 目录中，容器重启后会自动读取。
 
-请检查：
+### 常用维护命令
 
-1. 设备点位是否绑定了正确实体。
-2. 实体在 Home Assistant 中是否可用。
-3. 当前实体类型是否支持对应控制动作。
-4. 加载项日志中是否有动作调用失败信息。
+```bash
+# 查看日志
+docker logs -f jmglink-ha-3d-home
 
-## JMGLink 官网
+# 重启服务
+docker restart jmglink-ha-3d-home
 
-JMGLink 可用于远程访问 Home Assistant APP 以及其他内网应用。
+# 更新镜像并重建容器
+docker compose pull
+docker compose up -d
+```
+
+### 独立版本注意事项
+
+1. Docker 独立版本不依赖 Home Assistant Supervisor，也不会使用 Add-on Ingress
+2. 浏览器访问地址是 `http://Docker主机IP:8099`，不是 Home Assistant 侧边栏地址
+3. 如容器无法连接 Home Assistant，请优先检查 HA 地址是否能从 Docker 主机访问、长期访问令牌是否正确、HA 防火墙/反向代理是否放行
+4. 数据目录 `./data` 和素材目录 `./assets` 请勿随意删除，否则可能导致连接配置、项目和素材丢失
+
+***
+
+## 六、版本更新内容
+
+### 0.1.1
+
+- 新增 Docker 独立部署版
+- 支持者头像展示
+- 增加卡通风和奶油风渲染模式
+- 开关模型中增加灯具，无智能灯具解决方案
+- 去掉编辑视图中半墙展示
+
+### 0.1.0
+
+- 完成 HA 3D Home 初始插件脚手架搭建
+- 实现由 Fastify 后端提供服务、支持 Ingress 的 React 用户界面
+- 支持通过 `SUPERVISOR_TOKEN` 调用 Home Assistant Supervisor API
+
+***
+
+## 七、常见问题
+
+1. **页面显示「local development」**：刷新加载项仓库，升级/重装加载项，重启后查看日志确认 `mode: "addon"`、`hasSupervisorToken: true`
+2. **无法打开页面**：检查加载项运行状态、端口是否占用、Ingress是否正常，清理浏览器缓存
+3. **看不到HA实体**：确认加载项已启用 `homeassistant_api` 权限，HA核心运行正常，日志无API调用失败
+4. **控制设备无反应**：检查实体绑定是否正确、实体在HA中是否可用，日志无动作调用失败
+
+***
+
+## JMGLink 官网 【作者主营产品，需要大家支持\~】
+
+JMGLink 可用于远程访问 Home Assistant APP 以及其他内网应用，欢迎试用。
 
 官网：
 
 ```text
-https://www.jmglink.cn/
+https://jmglink.cn/
 ```
+
