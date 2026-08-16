@@ -1,8 +1,8 @@
 name: JMGLink HA 3D Home
-version: 0.1.1
+version: 0.1.2
 slug: jmglink_ha_3d_home
 description: Home Assistant的3D户型图可视化与控制中心
-url: https://gitee.com/tuotuo4ever/jmglink-ha-3d.git
+url: https://gitee.com/tuotuo4ever/jmglink-ha-3d-home.git
 image: docker.jmglink.cn/jmglink-ha-3d
 arch:
   - aarch64
