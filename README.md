@@ -92,6 +92,14 @@ services:
 然后执行：
 
 ```bash
+# 查看日志
+docker logs -f jmglink-ha-3d-home
+
+# 重启服务
+docker restart jmglink-ha-3d-home
+
+# 更新镜像并重建容器
+docker compose pull
 docker compose up -d
 ```
 
@@ -136,7 +144,19 @@ docker run -d `
 启动后访问：
 
 ```text
-http://Docker主机IP:8099
+mkdir -p data assets
+
+docker run -d \
+  --name jmglink-ha-3d-home \
+  --restart unless-stopped \
+  -p 8099:8099 \
+  -e HA3D_MODE=standalone \
+  -e PORT=8099 \
+  -e HA3D_DATA_DIR=/data \
+  -e HA3D_ASSET_DIR=/assets \
+  -v "$PWD/data:/data" \
+  -v "$PWD/assets:/assets" \
+  docker.jmglink.cn/jmglink-ha-3d:latest
 ```
 
 首次打开后，在页面的「连接与服务」面板填写 Home Assistant 地址和 API Key。配置会保存到挂载的 `data` 目录中，容器重启后会自动读取。
@@ -165,6 +185,17 @@ docker compose up -d
 ***
 
 ## 六、版本更新内容
+
+### 0.1.4
+
+- 左上数据支持手动选择。
+- 数据卡片支持名字自定义。
+- 部分模型样式调整。
+- 场景交互调整。
+
+### 0.1.3
+
+版本号写错了，跳过了
 
 ### 0.1.2
 
@@ -208,6 +239,20 @@ JMGLink 可用于远程访问 Home Assistant APP 以及其他内网应用，欢�
 官网：
 
 ```text
-https://jmglink.cn/
+services:
+  jmglink-ha-3d-home:
+    image: docker.jmglink.cn/jmglink-ha-3d:latest
+    container_name: jmglink-ha-3d-home
+    restart: unless-stopped
+    ports:
+      - "8099:8099"
+    volumes:
+      - ./data:/data
+      - ./assets:/assets
+    environment:
+      HA3D_MODE: standalone
+      PORT: 8099
+      HA3D_DATA_DIR: /data
+      HA3D_ASSET_DIR: /assets
 ```
 
