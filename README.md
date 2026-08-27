@@ -237,22 +237,5 @@ docker compose up -d
 JMGLink 可用于远程访问 Home Assistant APP 以及其他内网应用，欢迎试用。
 
 官网：
-
-```text
-services:
-  jmglink-ha-3d-home:
-    image: docker.jmglink.cn/jmglink-ha-3d:latest
-    container_name: jmglink-ha-3d-home
-    restart: unless-stopped
-    ports:
-      - "8099:8099"
-    volumes:
-      - ./data:/data
-      - ./assets:/assets
-    environment:
-      HA3D_MODE: standalone
-      PORT: 8099
-      HA3D_DATA_DIR: /data
-      HA3D_ASSET_DIR: /assets
-```
+jmglink.cn
 
