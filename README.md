@@ -186,6 +186,10 @@ docker compose up -d
 
 ## 六、版本更新内容
 
+### 0.1.5
+
+- 对接HA语音助手测试版，还没决定加不加tts、stt，先试试浏览器的api。
+
 ### 0.1.4
 
 - 左上数据支持手动选择。
@@ -238,4 +242,3 @@ JMGLink 可用于远程访问 Home Assistant APP 以及其他内网应用，欢�
 
 官网：
 jmglink.cn
-
